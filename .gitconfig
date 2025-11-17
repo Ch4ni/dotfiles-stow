@@ -1,0 +1,23 @@
+[user]
+	name = Ch4ni
+	email = Ch4ni@adahome.dev
+[init]
+	defaultBranch = main
+
+[alias]
+  pretty = log --pretty=format:\"%C(yellow)%h %ar %C(auto)%d %Creset %s , %Cblue%cn\" --graph
+  pretty-all = log --pretty=format:\"%C(yellow)%h %ar %C(auto)%d %Creset %s , %Cblue%cn\" --graph --all
+
+
+# This is an example of how to apply a different gitconfig for a specific path
+#
+# I've used this before for NDA repos that I don't want configuration or other
+# info to leak across repo boundaries (sandboxing gitconfig)
+# ============================================================================
+#[includeIf "gitdir:~/ExamplePath/"]
+#  path = ~/Code/local/ExamplePath/.gitconfig_example
+
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.gitignore_global

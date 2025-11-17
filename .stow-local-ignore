@@ -1,0 +1,11 @@
+
+# ignore git and gitignore files.
+.git(ignore)?
+
+# ignore vim swapfiles
+.*\.sw(o|p) # same as glob: *.sw{o,p}
+
+# regular repo files
+^/(README|LICENSE).*
+^/COPYING
+
