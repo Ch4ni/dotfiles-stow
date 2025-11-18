@@ -1,0 +1,5 @@
+zr="zellij run"
+zrd="zellij run -d down"
+zrr="zellij run -d right"
+zri="zellij run -i"
+zellaunch="zellij options --theme tokyo-night-storm --default-shell=zsh"

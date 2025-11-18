@@ -1,3 +1,5 @@
 outputs/
 **/*.sw[op]
+**/*.zwc
+.zcompdump
 

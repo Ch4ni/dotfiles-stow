@@ -1,0 +1,121 @@
+echo "Profile loading from ${ZDOTDIR:=${HOME}}"
+
+setopt extendedglob autocd
+
+#========================#
+#      Set Up Paths      #
+#========================#
+
+typeset -U homepaths
+# collect standard executable directories ... but don't look under the Code or Documents
+# directories since they can slow the search down *a lot*
+homepaths=(
+  '{,.}**/(sbin|bin|alternatives|shims)~*(Code|Documents)*'
+)
+
+typeset -U path
+path=(
+  $(eval realpath ${homepaths/#/${HOME}/} /home/linuxbrew/.linuxbrew/{,Homebrew}/{bin,sbin} 2>/dev/null)
+  ${path}
+)
+
+#========================#
+#        end Paths       #
+#========================#
+
+
+#========================#
+# Set Up Lazy Functions  #
+#========================#
+
+lazyFuncPath=${ZDOTDIR}/lazyfuncs.d
+
+typeset -U fpath
+fpath=(
+  ${lazyFuncPath}/**/(F)
+  $fpath
+)
+
+lazyFuncs=( ${lazyFuncPath}/**/*~*.zwc(.) )
+
+# make sure all the lazy functions are compiled
+for lazyFunc in ${lazyFuncs}; do
+  if [[ ! -s "${lazyFunc}.zwc" ]]; then
+    print "LazyFunc ${lazyFunc} not compiled ... compiling."
+    zcompile -UzR "${lazyFunc}"
+  fi
+done
+
+autoload -UwR ${lazyFuncs}
+
+#========================#
+#== End Lazy Functions ==#
+#========================#
+
+bindkey -v
+
+#========================#
+#== Set Up Completions ==#
+#========================#
+
+# TODO: learn more about zstyle/compinstall and generate completions for
+# all my autoload funcs
+zstyle :compinstall filename '${ZDOTDIR:=${HOME}}/.zshrc'
+autoload -Uz compinit
+compinit
+
+#========================#
+#==  end Completions   ==#
+#========================#
+
+#==========================#
+#== Source Other Configs ==#
+#==========================#
+
+# source all '00-*.zsh' files
+for sourceFile in ${ZDOTDIR}/sources.d/**/00-*.zsh; do
+  source ${sourceFile}
+done
+
+# get all the sources in order, skipping all '00-*.zsh' files (which are executed first)
+for sourceFile in ${ZDOTDIR}/sources.d/**/*~(*.zwc|*/00-*)(.); do
+  sourceCommand="${${sourceFile:t:r}#*-}"
+  [[ -x "${commands[${sourceCommand}]}" ]] && source <(${sourceFile})
+done
+
+#==========================#
+#==  end Other Configs   ==#
+#==========================#
+
+## TEMPORARY - I don't yet well understand why these don't carry over from .zshenv
+## give them a home here until I do
+
+# export source_sources=(
+#   'deferred-file:${SDKMAN_DIR}/bin/sdkman-init.sh'
+#   'deferred-file:${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh'
+# )
+
+#==========================#
+#==    Create Aliases    ==#
+#==========================#
+
+# for each alias file, process each line in the ile as an alias definition: aliasName=aliasText
+for aliasFile in ${ZDOTDIR}/aliases.d/**/*~*.zwc(.); do
+  source <(
+    for aliasLine in ${(f)"$(<${aliasFile})"}; do
+      printf "alias %s\n" "${aliasLine}"
+    done
+  )
+done
+
+#==========================#
+#==     end Aliases      ==#
+#==========================#
+
+
+#  TODO: figure this out later. There's probably no reason for this to even exist.
+
+for s in ${(M)source_sources:#deferred-file:*}; do
+  # deferred-file:* -> evaluate the file path, and then source the resulting file
+  [[ -s "${s#deferred-file:*}" ]] && eval source ${s#deferred-file:*}
+done
