@@ -1,0 +1,12 @@
+[tools]
+starship = "latest"
+
+# ag (the silver-searcher) is built from source when specified via mise.
+# This would be okay ... if it had limited dependencies and/or actually built
+# successfully.
+# ag = "latest"
+
+zellij = { version = "latest", os=["linux", "macos"]}
+bat = "latest"
+eza = "latest"
+atuin = "latest"
