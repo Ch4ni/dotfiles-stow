@@ -87,14 +87,6 @@ done
 #==  end Other Configs   ==#
 #==========================#
 
-## TEMPORARY - I don't yet well understand why these don't carry over from .zshenv
-## give them a home here until I do
-
-# export source_sources=(
-#   'deferred-file:${SDKMAN_DIR}/bin/sdkman-init.sh'
-#   'deferred-file:${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh'
-# )
-
 #==========================#
 #==    Create Aliases    ==#
 #==========================#
@@ -111,11 +103,3 @@ done
 #==========================#
 #==     end Aliases      ==#
 #==========================#
-
-
-#  TODO: figure this out later. There's probably no reason for this to even exist.
-
-for s in ${(M)source_sources:#deferred-file:*}; do
-  # deferred-file:* -> evaluate the file path, and then source the resulting file
-  [[ -s "${s#deferred-file:*}" ]] && eval source ${s#deferred-file:*}
-done
