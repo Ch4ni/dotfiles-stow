@@ -10,3 +10,7 @@ zellij = { version = "latest", os=["linux", "macos"]}
 bat = "latest"
 eza = "latest"
 atuin = "latest"
+jq = "latest"
+gh = "latest"
+tflint = "latest"
+neovim = "0.11.5"
