@@ -1,0 +1,27 @@
+#! /usr/bin/env zsh
+
+__default_eza_args=(
+  --git
+  --git-ignore
+  -alh
+)
+
+if (( $+commands[eza] )); then
+
+eza() {
+  override_defaults=false
+  for arg in $@; do
+    case $arg in
+      --override) override_defaults=true;;
+    esac
+  done
+
+  if [[ "true" == "${override_defaults}" ]]; then
+    ${commands[eza]} ${(@)@:#--override}
+  else
+    ${commands[eza]} ${__default_eza_args} $@
+  fi
+}
+
+fi
+
