@@ -10,7 +10,7 @@ typeset -U homepaths
 # collect standard executable directories ... but don't look under the Code or Documents
 # directories since they can slow the search down *a lot*
 homepaths=(
-  '{,.}**/(sbin|bin|alternatives|shims)~*(Code|Documents)*'
+  '{,.}**/(sbin|bin|alternatives)~*(Code|Documents)*'
 )
 
 typeset -U path
