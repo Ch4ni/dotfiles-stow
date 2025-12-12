@@ -80,7 +80,12 @@ done
 # get all the sources in order, skipping all '00-*.zsh' files (which are executed first)
 for sourceFile in ${ZDOTDIR}/sources.d/**/*~(*.zwc|*/00-*)(.); do
   sourceCommand="${${sourceFile:t:r}#*-}"
-  [[ -x "${commands[${sourceCommand}]}" ]] && source <(${sourceFile})
+  if [[ -x "${commands[${sourceCommand}]}" ]]; then
+    source <(${sourceFile})
+  elif [[ "${sourceFile:t}" == ??-load-*.zsh ]]; then
+    source ${sourceFile}
+  fi
+
 done
 
 #==========================#
