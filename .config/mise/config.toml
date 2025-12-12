@@ -1,3 +1,7 @@
+[env]
+EDITOR="vim"
+VISUAL="$EDITOR"
+
 [tools]
 starship = "latest"
 
