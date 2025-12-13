@@ -1,4 +1,4 @@
 [submodule "lazyvim-config"]
-	path = nvim/.config/nvim
+	path = packages/50-nvim/.config/nvim
 	url = git@github.com:Ch4ni/lazyvim-config
 	branch = 2025-config

@@ -1,10 +1,14 @@
 #! /usr/bin/env zsh
 
-stow -vv -t ${HOME} --dotfiles initial
-stow -vv -t ${HOME} --dotfiles mise
-stow -vv -t ${HOME} --dotfiles zsh
-stow -vv -t ${HOME} --dotfiles git
-stow -vv -t ${HOME} --dotfiles nvim
+set -x
+config_dir=${XDG_CONFIG_HOME:-${HOME}/.config}
+repo_dir=${0:h}
+pkg_dir=${repo_dir}/packages
+set +x
 
-# TODO: refactor zsh into its own package
-# TODO: refactor git into its own package
+stow -vv -d ${pkg_dir} -t ${config_dir} --dotfiles 10-mise-cfg
+stow -vv -d ${pkg_dir} -t ${config_dir} --dotfiles 19-starship-cfg
+stow -vv -d ${pkg_dir} -t ${HOME} --dotfiles 20-zsh
+stow -vv -d ${pkg_dir} -t ${HOME} --dotfiles 40-git
+stow -vv -d ${pkg_dir} -t ${HOME} --dotfiles 50-nvim
+
