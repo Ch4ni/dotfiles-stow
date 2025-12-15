@@ -1,0 +1,11 @@
+pcm.!default {
+    type plug
+    slave.pcm {
+        type pulse
+    }
+}
+
+ctl.!default {
+    type pulse
+}
+
