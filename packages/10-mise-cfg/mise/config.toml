@@ -1,6 +1,6 @@
 [env]
 EDITOR="vim"
-VISUAL="$EDITOR"
+VISUAL="${EDITOR}"
 
 [tools]
 starship = "latest"
@@ -13,9 +13,36 @@ starship = "latest"
 zellij = { version = "latest", os=["linux", "macos"]}
 bat = "latest"
 eza = "latest"
-atuin = "latest"
+atuin = { version = "latest", os=["linux", "macos"]}
 jq = "latest"
 gh = "latest"
 tflint = "latest"
 neovim = "0.11.5"
-bottom = "latest"
+bottom = { version = "latest", os=["linux", "macos"]}
+podman = { version = "latest", os=["linux", "macos"]}
+java = "temurin-21.0.10+7.0.LTS"
+dive = "latest"
+
+[tasks."node:init"]
+usage = '''
+arg "<nodeVer>" help="the nodejs major version to use" env="NODE_VERSION" default="24"
+'''
+description = '''
+Initialize node.js for this project and populate .nvmrc
+'''
+run = "printf '%s\n' {{ arg(name='nodeVer') }} > .nvmrc"
+
+[tasks."java:init"]
+usage = '''
+arg "<javaVer>" help="the java version to use. By default uses the temurin jdk" env="JAVA_VERSION" default="21"
+arg "<idiomaticFile>" help="the name of the idiomatic version file to write the version to. Use one of: .sdkmanrc, .java-version" env="JAVA_VERSION_FILE" default=".sdkmanrc"
+'''
+description = '''
+Initialize java for this project and populate the idiomatic version file for java in this directory.
+'''
+run = "printf '%s\n' {{ arg(name='javaVer') }} > {{ arg(name='idiomaticFile' }}"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node","java"]
+env_shell_expand = false
+java.shorthand_vendor = "temurin"
